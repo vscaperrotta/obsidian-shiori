@@ -4,7 +4,6 @@ import { Data } from "../types/DataType";
 import { VolumeInfo } from "src/types/VolumeInfoType";
 import { Book } from "../types/BookType";
 
-FOLDER;
 const DEFAULT_NAME = `${NAME}.json`;
 
 export function getDefaultPath(folder?: string) {

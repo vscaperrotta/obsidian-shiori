@@ -93,7 +93,7 @@ export class LibraryItemActionModal extends Modal {
       const detailElement = modalContainer.createEl("div", { cls: "obs-plugin-modal-detail-detail-container" });
       detailElement.createEl("p", {
         text: `${type}:`,
-        cls: "obs-plugin-modal-detail-detail-label"
+        cls: "obs-plugin-modal-detail-label"
       });
       detailElement.createEl("p", {
         text: value,

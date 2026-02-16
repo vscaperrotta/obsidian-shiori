@@ -113,12 +113,6 @@
   }
 }
 
-.obs-plugin-search-input-container {
-  align-items: center;
-  display: flex;
-  gap: 12px;
-}
-
 .obs-plugin-search-input {
   width: 100%;
   padding: 8px 12px;
@@ -311,29 +305,6 @@
   border: var(--border-width) solid var(--background-modifier-border);
   background: var(--background-primary);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-}
-
-.obs-plugin-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.obs-plugin-field label {
-  font-size: 12.8px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-}
-
-.obs-plugin-field input,
-.obs-plugin-field textarea {
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: var(--border-width) solid var(--background-modifier-border);
-  background: var(--background-secondary);
-  color: var(--text-normal);
 }
 
 .obs-plugin-value {

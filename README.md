@@ -1,13 +1,13 @@
-# Shiori — Libreria di Letture (Libri, Manga & Fumetti)
+# Shiori — Reading Library (Books, Manga & Comics)
 
-Plugin per Obsidian che consente di cercare, salvare e gestire le proprie letture (libri, manga, fumetti). Supporta ricerche tramite provider esterni (es. Google Books), salvataggio della libreria in un file JSON nella vault e gestione di stato/valutazioni.
+An Obsidian plugin to search, save, and manage your reading collection (books, manga, comics). It supports searches through external providers (e.g. Google Books), stores the library as a JSON file in the vault, and manages read status and ratings.
 
-## Caratteristiche principali
+## Key Features
 
-- Ricerca di volumi tramite API esterne e import rapido dei metadati.
-- Libreria locale strutturata in un file JSON salvato nella vault.
-- Stato di lettura (`read`), valutazioni a stelle e note personali.
-- UI responsive con modalità `grid` o `list`, modali di dettaglio e widget di rating.
+- Search for volumes using external APIs and quickly import metadata.
+- Local library stored as a structured JSON file in the vault.
+- Reading status (`read`), star ratings, and personal notes.
+- Responsive UI with `grid` or `list` modes, detail modals, and a rating widget.
 
 ## Demo
 
@@ -22,54 +22,48 @@ Plugin per Obsidian che consente di cercare, salvare e gestire le proprie lettur
     <img src="./assets/Screenshot3.png" width="400" />
 </p>
 
-## Requisiti
-- Node.js >= 22.16.0 (per sviluppo e build)
+## Requirements
+- Node.js >= 22.16.0 (for development and build)
 
-## Installazione
-1. Copia i file compilati nella cartella del plugin dentro la vault: `.obsidian/plugins/obsidian-shiori/`.
-2. Ricarica Obsidian.
-3. Abilita il plugin in Settings → Community Plugins.
-Per lo sviluppo, posiziona la repository direttamente nella vault per abilitare hot-reload.
-
-## Sviluppo
-Comandi principali (root del progetto):
+## Development
+Main commands (run from the project root):
 
 ```bash
 npm install
-npm run dev # sviluppo: esbuild + watch sass
-npm run build # build di produzione
+npm run dev # development: esbuild + watch sass
+npm run build # production build
 ```
 
-## Configurazione
+## Configuration
 
-### API Key (opzionale)
+### API Key (optional)
 
-Per estendere le ricerche o ottenere più dettagli puoi usare una API key (es. Google Books). Inserisci la chiave nelle impostazioni del plugin.
+To expand searches or get more detailed results you can use an API key (e.g. Google Books). Add the key in the plugin settings.
 
-### Cartella e file della libreria
+### Library Folder and File
 
-Di default la libreria viene salvata in una cartella configurabile dentro la vault (vedi impostazioni del plugin). Il file JSON può essere creato/caricato/salvato tramite l'interfaccia del plugin.
+By default the library is saved in a configurable folder inside the vault (see plugin settings). The JSON file can be created/loaded/saved via the plugin interface.
 
 ## Quick Start
 
-1. Apri la view del plugin dalla ribbon o dal comando disponibile.
-2. Usa la barra di ricerca per trovare un volume.
-3. Apri il dettaglio e usa le azioni per aggiungere alla libreria, segnare come letto o valutare.
+1. Open the plugin view from the ribbon or via the available command.
+2. Use the search bar to find a volume.
+3. Open the detail view and use actions to add to the library, mark as read, or rate.
 
-## Struttura del progetto (sintetica)
+## Project Structure (summary)
 
 ```
 src/
-├── main.ts                    # Entrypoint plugin
+├── main.ts                    # Plugin entrypoint
 ├── constants.ts
 ├── services/
-│   ├── bookService.ts         # API e normalizzazione risultati
-│   └── storage.ts             # Creazione / caricamento / salvataggio JSON
+│   ├── bookService.ts         # API calls and result normalization
+│   └── storage.ts             # Create / load / save JSON
 ├── settings/
-│   └── settingsTab.ts         # UI impostazioni
-├── ui/                        # Componenti UI e modali
+│   └── settingsTab.ts         # Settings UI
+├── ui/                        # UI components and modals
 └── views/
-    └── libraryView.ts         # View principale
+    └── libraryView.ts         # Main view
 ```
 
 For technical details and data models, see `TECHNICAL.md`.

@@ -87,7 +87,7 @@
     gap: 4px;
   }
 
-  .obs-plugin-modal-detail-detail-label {
+  .obs-plugin-modal-detail-label {
     font-weight: 600;
   }
 
@@ -123,8 +123,10 @@
     gap: 10px;
   }
 
-
-  .plugin-ratings-bar-container {
-    max-width: 100%;
+  .obs-plugin-modal-detail-note-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
   }
 }

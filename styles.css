@@ -21,35 +21,32 @@
   cursor: var(--cursor-link);
 }
 
-.plugin-ratings-bar-container {
-  align-items: center;
+.obs-plugin-field {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obs-plugin-field input,
+.obs-plugin-field textarea {
   width: 100%;
-  max-width: 200px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: var(--border-width) solid var(--color-base-50);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  box-shadow: none !important;
+  min-height: 36px;
+  max-width: 100%;
+  font-size: 14px;
+}
+.obs-plugin-field input:hover,
+.obs-plugin-field textarea:hover {
+  background: none;
 }
 
-.plugin-ratings-bar {
-  background-color: var(--color-base-25);
-  height: 8px;
-  border-radius: 2px;
-  position: relative;
-  width: 100%;
-}
-
-.plugin-ratings-fill {
-  background-color: var(--color-yellow);
-  height: 100%;
-  border-radius: 2px;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.plugin-ratings-average {
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--text-on-primary);
+.obs-plugin-field textarea {
+  min-height: 80px;
 }
 
 .obs-plugin-header {
@@ -200,12 +197,6 @@
   .obs-plugin-search-inputs-group {
     grid-template-columns: 1fr;
   }
-}
-
-.obs-plugin-search-input-container {
-  align-items: center;
-  display: flex;
-  gap: 12px;
 }
 
 .obs-plugin-search-input {
@@ -403,29 +394,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.obs-plugin-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 10px;
-}
-
-.obs-plugin-field label {
-  font-size: 12.8px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-}
-
-.obs-plugin-field input,
-.obs-plugin-field textarea {
-  padding: 8px 10px;
-  border-radius: 6px;
-  border: var(--border-width) solid var(--background-modifier-border);
-  background: var(--background-secondary);
-  color: var(--text-normal);
-}
-
 .obs-plugin-value {
   border-radius: 6px;
   padding: 8px 0;
@@ -545,7 +513,7 @@
   display: inline-flex;
   gap: 4px;
 }
-.modal .obs-plugin-modal-detail-detail-label {
+.modal .obs-plugin-modal-detail-label {
   font-weight: 600;
 }
 .modal .obs-plugin-modal-detail-rating-wrapper {
@@ -576,6 +544,9 @@
   display: flex;
   gap: 10px;
 }
-.modal .plugin-ratings-bar-container {
-  max-width: 100%;
+.modal .obs-plugin-modal-detail-note-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }

@@ -82,7 +82,7 @@ export default class ShioriView extends ItemView {
     const searchBox = container.createDiv({ cls: "obs-plugin-search" });
     const searchInputsGroup = searchBox.createDiv({ cls: "obs-plugin-search-inputs-group" });
 
-    const searchInputContainer = searchInputsGroup.createDiv({ cls: "obs-plugin-search-input-container" });
+    const searchInputContainer = searchInputsGroup.createDiv({ cls: "obs-plugin-field" });
     const searchInput = searchInputContainer.createEl("input", {
       cls: "obs-plugin-search-input",
       attr: { placeholder: "Search" }
@@ -168,10 +168,10 @@ export default class ShioriView extends ItemView {
     const section = container.createDiv({
       cls: "obs-plugin-section"
     });
-    const emptyStateContainer = section.createDiv({
-      cls: "obs-plugin-section-empty-container"
-    });
     if (items.length === 0) {
+      const emptyStateContainer = section.createDiv({
+        cls: "obs-plugin-section-empty-container"
+      });
       emptyStateContainer.createEl("p", {
         text: "No books or magazines in this list."
       });
@@ -242,17 +242,28 @@ export default class ShioriView extends ItemView {
   }
 
   private openElementDetails(item: Book) {
-    new LibraryItemDetailModal(this.plugin.app, item, async (rating) => {
-      if (!this.data) return;
-      item.starRating = rating;
-      await this.saveData();
-      this.refreshElements();
-    }, async () => {
-      if (!this.data) return;
-      this.data.items = this.data.items.filter((i) => i.id !== item.id);
-      await this.saveData();
-      this.refreshElements();
-    }).open();
+    new LibraryItemDetailModal(
+      this.plugin.app,
+      item,
+      async (rating) => {
+        if (!this.data) return;
+        item.starRating = rating;
+        await this.saveData();
+        this.refreshElements();
+      },
+      async () => {
+        if (!this.data) return;
+        this.data.items = this.data.items.filter((i) => i.id !== item.id);
+        await this.saveData();
+        this.refreshElements();
+      },
+      async (updatedItem) => {
+        if (!this.data) return;
+        item.note = updatedItem.note;
+        await this.saveData();
+        this.refreshElements();
+      }
+    ).open();
   }
 
   private refreshElements() { if (!this.itemsContainer) return; this.renderElements(this.itemsContainer); }

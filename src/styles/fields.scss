@@ -1,0 +1,27 @@
+.obs-plugin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.obs-plugin-field input,
+.obs-plugin-field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: var(--border-width) solid var(--color-base-50);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  box-shadow: none !important;
+  min-height: 36px;
+  max-width: 100%;
+  font-size: 14px;
+
+  &:hover {
+    background: none;
+  }
+}
+
+.obs-plugin-field textarea {
+  min-height: 80px;
+}

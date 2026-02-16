@@ -7,17 +7,20 @@ export class LibraryItemDetailModal extends Modal {
   private element: Book;
   private onRate: (rating: number) => void;
   private onRemove: () => void;
+  private onSave?: (item: Book) => void;
 
   constructor(
     app: Modal["app"],
     element: Book,
     onRate: (rating: number) => void,
     onRemove: () => void,
+    onSave?: (item: Book) => void,
   ) {
     super(app);
     this.element = element;
     this.onRate = onRate;
     this.onRemove = onRemove;
+    this.onSave = onSave;
   }
 
   onOpen() {
@@ -43,10 +46,10 @@ export class LibraryItemDetailModal extends Modal {
 
     // Year and Type
     const type = nullSafe(() => this.element.volumeInfo.printType && this.element.volumeInfo.printType[0].toUpperCase() + this.element.volumeInfo.printType.slice(1), null);
-    const year = nullSafe(() => this.element.volumeInfo.publishedDate, null);
+    const publishedDate = nullSafe(() => this.element.volumeInfo.publishedDate, null);
 
     modalTitleContainer.createEl("p", {
-      text: `${year} - ${type}`,
+      text: `${publishedDate} - ${type}`,
     });
 
     // Authors / publisher / pages (book-specific)
@@ -102,7 +105,7 @@ export class LibraryItemDetailModal extends Modal {
       const detailElement = modalContainer.createEl("div", { cls: "obs-plugin-modal-detail-detail-container" });
       detailElement.createEl("p", {
         text: `${type}:`,
-        cls: "obs-plugin-modal-detail-detail-label"
+        cls: "obs-plugin-modal-detail-label"
       });
       detailElement.createEl("p", {
         text: value,
@@ -136,8 +139,32 @@ export class LibraryItemDetailModal extends Modal {
       this.onRate(rating);
     });
 
+    // Note section
+    const noteContainer = modalContainer.createDiv({
+      cls: "obs-plugin-modal-detail-note-container"
+    });
+    const textAreaField = noteContainer.createDiv({
+      cls: "obs-plugin-field"
+    });
+    const noteTextarea = textAreaField.createEl(
+      "textarea",
+      {
+        cls: "obs-plugin-textarea",
+        placeholder: "Add your personal notes about this book..."
+      }
+    ) as HTMLTextAreaElement;
+
+    noteTextarea.value = this.element.note ?? "";
+
     const actions = modalContainer.createDiv({ cls: "obs-plugin-modal-detail-actions" });
     const removeButton = actions.createEl("button", { text: "Remove", cls: "obs-plugin-danger" });
+    const saveButton = actions.createEl("button", { text: "Save", cls: "mod-cta" });
+
+    saveButton.addEventListener("click", async () => {
+      this.element.note = noteTextarea.value;
+      if (this.onSave) await this.onSave(this.element);
+      this.close();
+    });
 
     removeButton.addEventListener("click", () => {
       this.onRemove();
