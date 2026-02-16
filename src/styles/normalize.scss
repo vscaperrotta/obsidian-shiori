@@ -1,0 +1,38 @@
+// Workspace
+.workspace-tabs {
+  .workspace-leaf {
+    .view-content {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+
+      h1,
+      h2,
+      h3,
+      p,
+      a,
+      hr {
+        margin: 0;
+      }
+
+      a,
+      button {
+
+        &:hover {
+          cursor: var(--cursor-link);
+        }
+      }
+    }
+  }
+}
+
+// Modals
+.modal {
+
+  a,
+  button {
+    &:hover {
+      cursor: var(--cursor-link);
+    }
+  }
+}

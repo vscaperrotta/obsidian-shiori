@@ -1,0 +1,30 @@
+.plugin-ratings-bar-container {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  max-width: 200px;
+}
+
+.plugin-ratings-bar {
+  background-color: var(--color-base-25);
+  height: 8px;
+  border-radius: 2px;
+  position: relative;
+  width: 100%;
+}
+
+.plugin-ratings-fill {
+  background-color: var(--color-yellow);
+  height: 100%;
+  border-radius: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.plugin-ratings-average {
+  font-size: 12px;
+  font-weight: bold;
+  color: var(--text-on-primary);
+}
