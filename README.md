@@ -71,7 +71,7 @@ src/
  - Added a "Read Date" field in the detail modal to record when a book was read.
  - Added sorting filters (alphabetical and by read date); new books are now inserted at the top of the list.
 
-**Version**: 1.0.1
+**Version**: 1.0.0
 **Minimum Obsidian Version**: 0.15.0
 
 If you want to support development: https://ko-fi.com/vittorioscaperrotta
