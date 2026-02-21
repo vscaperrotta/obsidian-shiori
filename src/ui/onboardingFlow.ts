@@ -3,8 +3,8 @@ export function renderOnboarding(
   onCreate: () => void,
   onLink?: () => void
 ) {
-  const onboarding = container.createDiv({ cls: "obs-plugin-onboarding" });
-  const actions = onboarding.createDiv({ cls: "obs-plugin-onboarding-actions" });
+  const onboarding = container.createDiv({ cls: "obs-plugin-shiori-onboarding" });
+  const actions = onboarding.createDiv({ cls: "obs-plugin-shiori-onboarding-actions" });
   const createButton = actions.createEl("button", { text: "Create new library" });
   createButton.addEventListener("click", onCreate);
   if (onLink) {

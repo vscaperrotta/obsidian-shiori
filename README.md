@@ -63,12 +63,15 @@ src/
 │   └── settingsTab.ts         # Settings UI
 ├── ui/                        # UI components and modals
 └── views/
-    └── libraryView.ts         # Main view
+    └── pluginView.ts         # Main view
 ```
 
-For technical details and data models, see `TECHNICAL.md`.
+## Updates
 
-**Version**: 1.0.0
+ - Added a "Read Date" field in the detail modal to record when a book was read.
+ - Added sorting filters (alphabetical and by read date); new books are now inserted at the top of the list.
+
+**Version**: 1.0.1
 **Minimum Obsidian Version**: 0.15.0
 
 If you want to support development: https://ko-fi.com/vittorioscaperrotta

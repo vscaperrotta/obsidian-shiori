@@ -1,6 +1,6 @@
 // Workspace
 .workspace-tabs {
-  .workspace-leaf {
+  .workspace-leaf-content[data-type="ShioriView"] {
     .view-content {
       display: flex;
       flex-direction: column;

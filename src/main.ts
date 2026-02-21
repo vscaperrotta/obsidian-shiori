@@ -1,6 +1,6 @@
 import { Plugin } from "obsidian";
 import { VIEW_TYPE, NAME, FOLDER } from "./constants";
-import pluginView from "./views/libraryView";
+import pluginView from "./views/pluginView";
 import LibrarySettingTab from "./settings/settingsTab";
 
 type LibraryPluginData = {

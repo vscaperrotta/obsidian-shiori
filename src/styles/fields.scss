@@ -1,11 +1,11 @@
-.obs-plugin-field {
+.obs-plugin-shiori-field {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.obs-plugin-field input,
-.obs-plugin-field textarea {
+.obs-plugin-shiori-field input,
+.obs-plugin-shiori-field textarea {
   width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
@@ -22,6 +22,12 @@
   }
 }
 
-.obs-plugin-field textarea {
+.obs-plugin-shiori-field textarea {
   min-height: 80px;
+}
+
+.obs-plugin-shiori-date-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }

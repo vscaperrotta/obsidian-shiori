@@ -15,7 +15,7 @@ import {
 } from "../services/storage";
 import { searchBooks, getBookDetails } from "../services/bookService";
 import { createStarRating } from "../ui/ratingWidget";
-import { nullSafe } from "../utils/helpers";
+import { nullSafe, formatPublishedDate } from "../utils/helpers";
 
 export default class ShioriView extends ItemView {
   plugin: LibraryPlugin;
@@ -23,6 +23,7 @@ export default class ShioriView extends ItemView {
   data: Data | null = null;
   itemsContainer: HTMLElement | null = null;
   viewMode: "grid" | "list" = "grid";
+  sortMode: "alphabetical" | "readDate" | "none" = "none";
 
   constructor(leaf: WorkspaceLeaf, plugin: LibraryPlugin) {
     super(leaf);
@@ -51,15 +52,15 @@ export default class ShioriView extends ItemView {
     const container = this.containerEl.children[1] as HTMLElement;
     container.empty();
 
-    const header = container.createDiv({ cls: "obs-plugin-header" });
+    const header = container.createDiv({ cls: "obs-plugin-shiori-header" });
     header.createEl("h1", {
       text: NAME,
-      cls: "obs-plugin-title"
+      cls: "obs-plugin-shiori-title"
     });
 
     header.createEl("p", {
       text: "This plugin allow you to manage your books, manga and comics.",
-      cls: "obs-plugin-header-text"
+      cls: "obs-plugin-shiori-header-text"
     });
 
     if (!this.data) {
@@ -79,18 +80,18 @@ export default class ShioriView extends ItemView {
       return;
     }
 
-    const searchBox = container.createDiv({ cls: "obs-plugin-search" });
-    const searchInputsGroup = searchBox.createDiv({ cls: "obs-plugin-search-inputs-group" });
+    const searchBox = container.createDiv({ cls: "obs-plugin-shiori-search" });
+    const searchInputsGroup = searchBox.createDiv({ cls: "obs-plugin-shiori-search-inputs-group" });
 
-    const searchInputContainer = searchInputsGroup.createDiv({ cls: "obs-plugin-field" });
+    const searchInputContainer = searchInputsGroup.createDiv({ cls: "obs-plugin-shiori-field" });
     const searchInput = searchInputContainer.createEl("input", {
-      cls: "obs-plugin-search-input",
+      cls: "obs-plugin-shiori-search-input",
       attr: { placeholder: "Search" }
     });
 
     let resultsList: HTMLElement | null = null;
 
-    const content = container.createDiv({ cls: "obs-plugin-content" });
+    const content = container.createDiv({ cls: "obs-plugin-shiori-content" });
     this.itemsContainer = content;
 
     this.renderElements(content);
@@ -102,13 +103,13 @@ export default class ShioriView extends ItemView {
       const results = await searchBooks(query);
 
       if (!results || results.length === 0) {
-        if (!resultsList) resultsList = searchBox.createDiv({ cls: "obs-plugin-search-results" });
+        if (!resultsList) resultsList = searchBox.createDiv({ cls: "obs-plugin-shiori-search-results" });
         resultsList.empty();
-        resultsList.createEl("div", { text: "No results found.", cls: "obs-plugin-search-empty" });
+        resultsList.createEl("div", { text: "No results found.", cls: "obs-plugin-shiori-search-empty" });
         return;
       }
 
-      if (!resultsList) resultsList = searchBox.createDiv({ cls: "obs-plugin-search-results" });
+      if (!resultsList) resultsList = searchBox.createDiv({ cls: "obs-plugin-shiori-search-results" });
       await this.renderSearchResults(resultsList, results);
     };
 
@@ -128,23 +129,45 @@ export default class ShioriView extends ItemView {
 
     if (!this.data) { container.createEl("p", { text: "No library loaded." }); return; }
 
-    const header = container.createDiv({ cls: "obs-plugin-tab-header" });
-    const viewToggle = header.createDiv({ cls: "obs-plugin-view-toggle" });
+    const header = container.createDiv({ cls: "obs-plugin-shiori-tab-header" });
+    const actionsContainer = header.createDiv({ cls: "obs-plugin-shiori-view-toggle" });
 
-    const gridButton = viewToggle.createEl("button", {
-      cls: "obs-plugin-view-button", attr: { "aria-label": "Grid view", title: "Grid view" }
+    const gridButton = actionsContainer.createEl("button", {
+      cls: "obs-plugin-shiori-view-button", attr: { "aria-label": "Grid view", title: "Grid view" }
     });
-    const listButton = viewToggle.createEl("button", {
-      cls: "obs-plugin-view-button", attr: { "aria-label": "List view", title: "List view" }
+    const listButton = actionsContainer.createEl("button", {
+      cls: "obs-plugin-shiori-view-button", attr: { "aria-label": "List view", title: "List view" }
     });
     setIcon(gridButton, "layout-grid"); setIcon(listButton, "list");
 
     if (this.viewMode === "grid") {
-      gridButton.classList.add("obs-plugin-view-button-active");
-    } else { listButton.classList.add("obs-plugin-view-button-active"); }
+      gridButton.classList.add("obs-plugin-shiori-view-button-active");
+    } else { listButton.classList.add("obs-plugin-shiori-view-button-active"); }
 
-    const tabContent = container.createDiv({ cls: "obs-plugin-tab-content" });
-    this.renderElementSection(tabContent, this.data.items);
+    const alphabeticalButton = actionsContainer.createEl("button", {
+      cls: "obs-plugin-shiori-view-button", attr: {
+        "aria-label": "Sort alphabetically",
+        title: "Sort alphabetically"
+      }
+    });
+    const readDateButton = actionsContainer.createEl("button", {
+      cls: "obs-plugin-shiori-view-button", attr: {
+        "aria-label": "Sort by read date",
+        title: "Sort by read date"
+      }
+    });
+    setIcon(alphabeticalButton, "a-arrow-down");
+    setIcon(readDateButton, "calendar");
+
+    if (this.sortMode === "alphabetical") {
+      alphabeticalButton.classList.add("obs-plugin-shiori-view-button-active");
+    } else if (this.sortMode === "readDate") {
+      readDateButton.classList.add("obs-plugin-shiori-view-button-active");
+    }
+
+    const tabContent = container.createDiv({ cls: "obs-plugin-shiori-tab-content" });
+    const sortedItems = this.sortItems([...this.data.items]);
+    this.renderElementSection(tabContent, sortedItems);
 
     gridButton.addEventListener("click", async () => {
       if (this.viewMode === "grid") {
@@ -162,15 +185,43 @@ export default class ShioriView extends ItemView {
       await this.plugin.setViewMode("list");
       this.renderElements(container);
     });
+    alphabeticalButton.addEventListener("click", () => {
+      this.sortMode = this.sortMode === "alphabetical" ? "none" : "alphabetical";
+      this.renderElements(container);
+    });
+    readDateButton.addEventListener("click", () => {
+      this.sortMode = this.sortMode === "readDate" ? "none" : "readDate";
+      this.renderElements(container);
+    });
+  }
+
+  private sortItems(items: Book[]): Book[] {
+    if (this.sortMode === "alphabetical") {
+      return items.sort((a, b) => {
+        const titleA = (a.volumeInfo?.title || "").toLowerCase();
+        const titleB = (b.volumeInfo?.title || "").toLowerCase();
+        return titleA.localeCompare(titleB);
+      });
+    } else if (this.sortMode === "readDate") {
+      return items.sort((a, b) => {
+        const dateA = a.readDate || "";
+        const dateB = b.readDate || "";
+        if (!dateA && !dateB) return 0;
+        if (!dateA) return 1;
+        if (!dateB) return -1;
+        return dateB.localeCompare(dateA); // Most recent first
+      });
+    }
+    return items;
   }
 
   private renderElementSection(container: HTMLElement, items: Book[]) {
     const section = container.createDiv({
-      cls: "obs-plugin-section"
+      cls: "obs-plugin-shiori-section"
     });
     if (items.length === 0) {
       const emptyStateContainer = section.createDiv({
-        cls: "obs-plugin-section-empty-container"
+        cls: "obs-plugin-shiori-section-empty-container"
       });
       emptyStateContainer.createEl("p", {
         text: "No books or magazines in this list."
@@ -178,7 +229,7 @@ export default class ShioriView extends ItemView {
       return;
     }
 
-    const list = section.createDiv({ cls: this.viewMode === "grid" ? "obs-plugin-element-grid" : "obs-plugin-element-list" });
+    const list = section.createDiv({ cls: this.viewMode === "grid" ? "obs-plugin-shiori-element-grid" : "obs-plugin-shiori-element-list" });
     if (this.viewMode === "grid") {
       this.renderElementGrid(list, items);
     } else {
@@ -189,21 +240,19 @@ export default class ShioriView extends ItemView {
   private renderElementGrid(container: HTMLElement, items: Book[]) {
     items.forEach((item) => {
 
-      const card = container.createDiv({ cls: "obs-plugin-element-card" });
+      const card = container.createDiv({ cls: "obs-plugin-shiori-element-card" });
       const image = item.volumeInfo.image || "";
-      card.createEl("img", { cls: "obs-plugin-element-poster" }).setAttribute("src", image);
-      card.createEl("div", { text: item.volumeInfo.title, cls: "obs-plugin-element-title" });
+      card.createEl("img", { cls: "obs-plugin-shiori-element-poster" }).setAttribute("src", image);
+      card.createEl("div", { text: item.volumeInfo.title, cls: "obs-plugin-shiori-element-title" });
 
       const detailsParts: string[] = [];
 
       const authorsText = Array.isArray(item.volumeInfo.authors) ? item.volumeInfo.authors.join(", ") : (item.volumeInfo.authors ?? "");
-      if (authorsText) {
-        card.createEl("div", { text: authorsText, cls: "obs-plugin-element-authors" });
-      }
+      card.createEl("div", { text: authorsText, cls: "obs-plugin-shiori-element-authors" });
 
       const detailsText = detailsParts.join(" - ");
       if (detailsText) {
-        card.createEl("div", { text: detailsText, cls: "obs-plugin-element-year" });
+        card.createEl("div", { text: detailsText, cls: "obs-plugin-shiori-element-year" });
       }
 
       createStarRating(card, item.starRating, true);
@@ -214,27 +263,29 @@ export default class ShioriView extends ItemView {
   private renderElementList(container: HTMLElement, items: Book[]) {
     items.forEach((item) => {
 
-      const row = container.createDiv({ cls: "obs-plugin-element-row" });
-      const poster = row.createEl("img", { cls: "obs-plugin-element-thumbnail" });
+      const row = container.createDiv({ cls: "obs-plugin-shiori-element-row" });
+      const poster = row.createEl("img", { cls: "obs-plugin-shiori-element-thumbnail" });
       const image = item.volumeInfo.image || "";
       poster.setAttribute("src", image || "");
 
-      const info = row.createDiv({ cls: "obs-plugin-element-info" });
-      info.createEl("h3", { text: item.volumeInfo.title, cls: "obs-plugin-element-title" });
+      const info = row.createDiv({ cls: "obs-plugin-shiori-element-info" });
+      info.createEl("h3", { text: item.volumeInfo.title, cls: "obs-plugin-shiori-element-title" });
 
       const authorsText = Array.isArray(item.volumeInfo.authors) ? item.volumeInfo.authors.join(", ") : (item.volumeInfo.authors ?? "");
-      if (authorsText) info.createEl("p", { text: authorsText, cls: "obs-plugin-element-authors" });
+      if (authorsText) info.createEl("p", { text: authorsText, cls: "obs-plugin-shiori-element-authors" });
 
       const detailsParts: string[] = [];
-      const year = nullSafe(() => item.volumeInfo.publishedDate, null);
+
+      const publishedDate = nullSafe(() => item.volumeInfo.publishedDate, null);
+      const formatDate = publishedDate ? formatPublishedDate(publishedDate) : 'N/A';
+      if (formatDate) detailsParts.push(formatDate);
+
       const printType = item.volumeInfo.printType || "";
       const printTypeEdit = nullSafe(() => printType[0].toUpperCase() + printType.slice(1), null);
-
-      if (year) detailsParts.push(year);
       if (printTypeEdit) detailsParts.push(printTypeEdit);
 
       const detailsText = detailsParts.join(" - ");
-      if (detailsText) info.createEl("p", { text: detailsText, cls: "obs-plugin-element-year" });
+      if (detailsText) info.createEl("p", { text: detailsText, cls: "obs-plugin-shiori-element-year" });
 
       createStarRating(info, item.starRating, true);
       row.addEventListener("click", () => this.openElementDetails(item));
@@ -260,6 +311,7 @@ export default class ShioriView extends ItemView {
       async (updatedItem) => {
         if (!this.data) return;
         item.note = updatedItem.note;
+        item.readDate = updatedItem.readDate;
         await this.saveData();
         this.refreshElements();
       }
@@ -300,31 +352,33 @@ export default class ShioriView extends ItemView {
     results.forEach((result) => {
 
       const item = container.createDiv({
-        cls: "obs-plugin-search-item"
+        cls: "obs-plugin-shiori-search-item"
       });
 
       if (result.volumeInfo.image) item.createEl("img", {
-        cls: "obs-plugin-search-poster"
+        cls: "obs-plugin-shiori-search-poster"
       }).setAttribute("src", result.volumeInfo.image);
 
       const info = item.createDiv({
-        cls: "obs-plugin-search-info"
+        cls: "obs-plugin-shiori-search-info"
       });
 
       info.createEl("h3", {
         text: result.volumeInfo.title,
-        cls: "obs-plugin-search-title"
+        cls: "obs-plugin-shiori-search-title"
       });
 
+      const publishedDate = nullSafe(() => result.volumeInfo.publishedDate, null);
+      const formatDate = publishedDate ? formatPublishedDate(publishedDate) : 'N/A';
       info.createEl("p", {
-        text: result.volumeInfo.publishedDate,
-        cls: "obs-plugin-search-year"
+        text: formatDate,
+        cls: "obs-plugin-shiori-search-year"
       });
 
       if (result.volumeInfo.authors) {
         info.createEl("p", {
           text: result.volumeInfo.authors.join(", "),
-          cls: "obs-plugin-search-authors"
+          cls: "obs-plugin-shiori-search-authors"
         });
       }
 
@@ -343,7 +397,7 @@ export default class ShioriView extends ItemView {
           newItem.volumeInfo = info;
           newItem.volumeInfo.image = info.imageLinks?.thumbnail || "";
 
-          this.data.items.push(newItem);
+          this.data.items.unshift(newItem);
 
           await this.saveData();
           this.render();

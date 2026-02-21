@@ -4,12 +4,12 @@ export function createStarRating(
   readOnly: boolean,
   onChange?: (rating: number) => void
 ) {
-  const stars = container.createDiv({ cls: "obs-plugin-stars" });
+  const stars = container.createDiv({ cls: "obs-plugin-shiori-stars" });
   const starElements: HTMLSpanElement[] = [];
   let currentRating = rating;
 
   for (let i = 1; i <= 5; i += 1) {
-    const star = stars.createEl("span", { text: "★", cls: "obs-plugin-star" });
+    const star = stars.createEl("span", { text: "★", cls: "obs-plugin-shiori-star" });
     if (i <= rating) star.classList.add("active");
     starElements.push(star);
     if (!readOnly) {

@@ -44,3 +44,21 @@ export function formatRating(rating: string): string {
 
   return value;
 }
+
+/**
+ * Extract year from publication date strings.
+ * Supports various formats and always returns just the year.
+ * - YYYY → YYYY
+ * - YYYY-MM-DD → YYYY
+ * - ISO 8601 datetime (YYYY-MM-DDTHH:mm:ss...) → YYYY
+ * @param {string} dateString - Date string from external sources.
+ * @returns {string} Year as a string (e.g., "2023").
+ */
+export function formatPublishedDate(dateString: string): string {
+  if (!dateString) return dateString;
+
+  // Extract first 4 digits which represent the year
+  const yearMatch = dateString.match(/\d{4}/);
+
+  return yearMatch ? yearMatch[0] : dateString;
+}

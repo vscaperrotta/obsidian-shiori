@@ -5,5 +5,6 @@ export type Book = {
   volumeInfo: VolumeInfo;
   starRating: number;
   note: string;
+  readDate?: string;
 };
 

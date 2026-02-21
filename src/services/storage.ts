@@ -17,7 +17,7 @@ export function getFolder(folder?: string) {
 
 export function createEmptyElement(): Book {
   return {
-    id: crypto.randomUUID(),
+    id: Math.random().toString(36),
     volumeInfo: null as unknown as VolumeInfo,
     starRating: 0,
     note: ""
@@ -44,7 +44,8 @@ function normalizeData(data: Data): Data {
       ...createEmptyElement(),
       volumeInfo: item.volumeInfo || null,
       starRating: typeof item.starRating === "number" ? item.starRating : 0,
-      note: typeof item.note === "string" ? item.note : ""
+      note: typeof item.note === "string" ? item.note : "",
+      readDate: typeof item.readDate === "string" ? item.readDate : ""
     }))
   };
 }

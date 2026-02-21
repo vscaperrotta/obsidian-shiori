@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting, Notice, TFile } from "obsidian";
-import pluginView from "../views/libraryView";
+import pluginView from "../views/pluginView";
 import { VIEW_TYPE } from "../constants";
 import LibraryPlugin from "../main";
 import { createDefaultData, createJsonFile, getDefaultPath, getFolder, saveLocalData } from "../services/storage";
@@ -95,7 +95,7 @@ export default class LibrarySettingTab extends PluginSettingTab {
       .addButton(button => button
         .setButtonText("GitHub")
         .onClick(() => {
-          window.open("https://github.com/vscaperrotta/obsidian-library/issues", "_blank");
+          window.open("https://github.com/vscaperrotta/obsidian-shiori/issues", "_blank");
         }));
 
     // Support and donation

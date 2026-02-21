@@ -1,9 +1,9 @@
-.obs-plugin-onboarding {
+.obs-plugin-shiori-onboarding {
   display: flex;
   flex-direction: column;
   gap: 24px;
 
-  .obs-plugin-onboarding-actions {
+  .obs-plugin-shiori-onboarding-actions {
     border: var(--border-width) solid var(--background-modifier-border);
     border-radius: 4px;
     display: flex;
@@ -13,7 +13,7 @@
     padding: 32px;
   }
 
-  .obs-plugin-onboarding-actions p {
+  .obs-plugin-shiori-onboarding-actions p {
     color: var(--text-muted);
     font-size: 16px;
   }

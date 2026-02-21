@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-library",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "An Obsidian plugin to manage your books, manga and comics.",
 	"author": "Vittorio Scaperrotta",
 	"main": "main.js",

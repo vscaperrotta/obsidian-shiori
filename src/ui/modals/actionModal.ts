@@ -1,5 +1,5 @@
 import { Modal } from "obsidian";
-import { nullSafe } from "src/utils/helpers";
+import { nullSafe, formatPublishedDate } from "src/utils/helpers";
 import { Book } from "src/types/BookType";
 
 export class LibraryItemActionModal extends Modal {
@@ -17,28 +17,29 @@ export class LibraryItemActionModal extends Modal {
     contentEl.empty();
 
     const modalContainer = contentEl.createDiv({
-      cls: "obs-plugin-modal-detail-container"
+      cls: "obs-plugin-shiori-modal-detail-container"
     });
 
     const modalHeader = modalContainer.createDiv({
-      cls: "obs-plugin-modal-detail-header"
+      cls: "obs-plugin-shiori-modal-detail-header"
     });
 
     const modalTitleContainer = modalHeader.createDiv({
-      cls: "obs-plugin-modal-detail-title-container"
+      cls: "obs-plugin-shiori-modal-detail-title-container"
     });
 
     modalTitleContainer.createEl("h1", {
       text: this.element.volumeInfo.title,
-      cls: "obs-plugin-modal-detail-title"
+      cls: "obs-plugin-shiori-modal-detail-title"
     });
 
     // Year and Type
     const type = nullSafe(() => this.element.volumeInfo.printType && this.element.volumeInfo.printType[0].toUpperCase() + this.element.volumeInfo.printType.slice(1), null);
     const publishedDate = nullSafe(() => this.element.volumeInfo.publishedDate, null);
+    const formatDate = publishedDate ? formatPublishedDate(publishedDate) : 'N/A';
 
     modalTitleContainer.createEl("p", {
-      text: `${publishedDate} - ${type}`,
+      text: `${formatDate} - ${type}`,
     });
 
     // Authors / publisher / pages (book-specific)
@@ -59,21 +60,21 @@ export class LibraryItemActionModal extends Modal {
 
     // Poster
     if (this.element.volumeInfo.image) {
-      modalHeader.createEl("img", { cls: "obs-plugin-modal-detail-poster" }).setAttribute("src", this.element.volumeInfo.image || "");
+      modalHeader.createEl("img", { cls: "obs-plugin-shiori-modal-detail-poster" }).setAttribute("src", this.element.volumeInfo.image || "");
     }
 
     // Plot
     if (this.element.volumeInfo.description) {
-      const plotContainer = modalContainer.createEl("div", { cls: "obs-plugin-modal-detail-plot-container" });
+      const plotContainer = modalContainer.createEl("div", { cls: "obs-plugin-shiori-modal-detail-plot-container" });
 
       const plotEl = plotContainer.createEl("p", {
         text: this.element.volumeInfo.description,
-        cls: "obs-plugin-modal-detail-plot"
+        cls: "obs-plugin-shiori-modal-detail-plot"
       });
 
       const showMoreButton = plotContainer.createEl("button", {
         text: "Show more",
-        cls: "obs-plugin-modal-detail-show-more obs-plugin-modal-detail-show-more-hidden"
+        cls: "obs-plugin-shiori-modal-detail-show-more obs-plugin-shiori-modal-detail-show-more-hidden"
       })
 
       showMoreButton.addEventListener("click", () => {
@@ -83,21 +84,21 @@ export class LibraryItemActionModal extends Modal {
 
       requestAnimationFrame(() => {
         if (plotEl.scrollHeight > plotEl.clientHeight + 1) {
-          showMoreButton.removeClass("obs-plugin-modal-detail-show-more-hidden");
+          showMoreButton.removeClass("obs-plugin-shiori-modal-detail-show-more-hidden");
         }
       });
     }
 
     // Generate details section only if at least one detail is available
     function rederDetailSection(type: string, value: string) {
-      const detailElement = modalContainer.createEl("div", { cls: "obs-plugin-modal-detail-detail-container" });
+      const detailElement = modalContainer.createEl("div", { cls: "obs-plugin-shiori-modal-detail-detail-container" });
       detailElement.createEl("p", {
         text: `${type}:`,
-        cls: "obs-plugin-modal-detail-label"
+        cls: "obs-plugin-shiori-modal-detail-label"
       });
       detailElement.createEl("p", {
         text: value,
-        cls: "obs-plugin-modal-detail-detail-value"
+        cls: "obs-plugin-shiori-modal-detail-detail-value"
       });
     }
 
@@ -113,7 +114,7 @@ export class LibraryItemActionModal extends Modal {
       rederDetailSection("Publisher", (this.element.volumeInfo as any).publisher);
     }
 
-    const actions = modalContainer.createDiv({ cls: "obs-plugin-modal-detail-actions" });
+    const actions = modalContainer.createDiv({ cls: "obs-plugin-shiori-modal-detail-actions" });
 
     const watchedButton = actions.createEl("button", { text: "Add" });
 

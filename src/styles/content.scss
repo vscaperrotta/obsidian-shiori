@@ -1,18 +1,18 @@
 /* Content */
-.obs-plugin-content {
+.obs-plugin-shiori-content {
   display: flex;
   flex-direction: column;
   gap: 24px;
   width: 100%;
 }
 
-.obs-plugin-tabs-container {
+.obs-plugin-shiori-tabs-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.obs-plugin-tab-header {
+.obs-plugin-shiori-tab-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -21,17 +21,17 @@
   padding-bottom: 16px;
 }
 
-.obs-plugin-tab-buttons {
+.obs-plugin-shiori-tab-buttons {
   display: flex;
   gap: 16px;
 }
 
-.obs-plugin-view-toggle {
+.obs-plugin-shiori-view-toggle {
   display: flex;
   gap: 8px;
 }
 
-.obs-plugin-view-button {
+.obs-plugin-shiori-view-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -43,23 +43,23 @@
   cursor: pointer;
 }
 
-.obs-plugin-view-button:hover {
+.obs-plugin-shiori-view-button:hover {
   color: var(--text-normal);
   background: var(--background-secondary);
 }
 
-.obs-plugin-view-button-active {
+.obs-plugin-shiori-view-button-active {
   color: var(--text-normal);
   background: var(--background-secondary) !important;
   border-color: var(--background-modifier-border);
 }
 
-.obs-plugin-view-button svg {
+.obs-plugin-shiori-view-button svg {
   width: 16px;
   height: 16px;
 }
 
-.obs-plugin-tab-button {
+.obs-plugin-shiori-tab-button {
   background: transparent;
   border: none;
   color: var(--text-muted);
@@ -69,23 +69,23 @@
   cursor: pointer;
 }
 
-.obs-plugin-tab-button:hover {
+.obs-plugin-shiori-tab-button:hover {
   color: var(--text-normal);
   background: var(--background-secondary);
 }
 
-.obs-plugin-tab-button-active {
+.obs-plugin-shiori-tab-button-active {
   color: var(--text-normal);
   background: var(--background-secondary) !important;
 }
 
-.obs-plugin-tab-content {
+.obs-plugin-shiori-tab-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.obs-plugin-import-select {
+.obs-plugin-shiori-import-select {
   min-width: 220px;
   padding: 6px 10px;
   border-radius: 6px;
@@ -94,7 +94,7 @@
   color: var(--text-normal);
 }
 
-.obs-plugin-search {
+.obs-plugin-shiori-search {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -102,7 +102,7 @@
   width: 100%;
 }
 
-.obs-plugin-search-inputs-group {
+.obs-plugin-shiori-search-inputs-group {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   gap: 12px;
@@ -113,7 +113,7 @@
   }
 }
 
-.obs-plugin-search-input {
+.obs-plugin-shiori-search-input {
   width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
@@ -128,7 +128,7 @@
   }
 }
 
-.obs-plugin-search-results {
+.obs-plugin-shiori-search-results {
   display: grid;
   gap: 12px;
   grid-template-columns: 1fr 1fr 1fr;
@@ -142,7 +142,7 @@
   }
 }
 
-.obs-plugin-search-item {
+.obs-plugin-shiori-search-item {
   display: flex;
   gap: 12px;
   padding: 10px;
@@ -152,25 +152,25 @@
   cursor: pointer;
 }
 
-.obs-plugin-search-item:hover {
+.obs-plugin-shiori-search-item:hover {
   filter: brightness(1.03);
 }
 
-.obs-plugin-search-poster {
+.obs-plugin-shiori-search-poster {
   width: 48px;
   height: 72px;
   object-fit: cover;
   border-radius: 6px;
 }
 
-.obs-plugin-search-info {
+.obs-plugin-shiori-search-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
 }
 
-.obs-plugin-search-title {
+.obs-plugin-shiori-search-title {
   font-weight: 600;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -179,7 +179,7 @@
   width: 100%;
 }
 
-.obs-plugin-search-authors {
+.obs-plugin-shiori-search-authors {
   font-size: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 1;
@@ -189,22 +189,22 @@
   width: 100%;
 }
 
-.obs-plugin-search-year {
+.obs-plugin-shiori-search-year {
   color: var(--text-muted);
   font-size: 12px;
 }
 
-.obs-plugin-search-empty {
+.obs-plugin-shiori-search-empty {
   color: var(--text-muted);
   font-size: 16px;
 }
 
-.obs-plugin-element-list {
+.obs-plugin-shiori-element-list {
   display: flex;
   flex-direction: column;
 }
 
-.obs-plugin-element-row {
+.obs-plugin-shiori-element-row {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -213,32 +213,32 @@
   cursor: pointer;
 }
 
-.obs-plugin-element-row:last-child {
+.obs-plugin-shiori-element-row:last-child {
   border-bottom: none;
 }
 
-.obs-plugin-element-thumbnail {
+.obs-plugin-shiori-element-thumbnail {
   width: 50px;
   height: 70px;
   object-fit: cover;
   border-radius: 6px;
 }
 
-.obs-plugin-element-info {
+.obs-plugin-shiori-element-info {
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
 }
 
-.obs-plugin-section {
+.obs-plugin-shiori-section {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
 }
 
-.obs-plugin-section-empty-container {
+.obs-plugin-shiori-section-empty-container {
   display: flex;
   background-color: var(--background-secondary);
   align-items: center;
@@ -247,59 +247,61 @@
   padding: 20px;
 }
 
-.obs-plugin-element-grid {
+.obs-plugin-shiori-element-grid {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
 }
 
-.obs-plugin-element-card {
-  display: grid;
+.obs-plugin-shiori-element-card {
+  display: flex;
+  flex-direction: column;
   gap: 8px;
   padding: 12px;
   border-radius: 12px;
   border: var(--border-width) solid var(--color-base-50);
   background: var(--background-primary);
   cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    transition: transform 0.2s ease;
+  }
 }
 
-.obs-plugin-element-card:hover {
-  transform: translateY(-2px);
-  transition: transform 0.2s ease;
-}
-
-.obs-plugin-element-poster {
+.obs-plugin-shiori-element-poster {
   width: 100%;
   height: 160px;
   object-fit: cover;
   border-radius: 8px;
 }
 
-.obs-plugin-element-title {
+.obs-plugin-shiori-element-title {
   font-weight: 600;
   font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
+  width: 100%;
 }
 
-.obs-plugin-element-authors {
+.obs-plugin-shiori-element-authors {
   font-size: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  position: relative;
+  width: 100%;
+  min-height: 18px;
 }
 
-.obs-plugin-element-year {
+.obs-plugin-shiori-element-year {
   color: var(--text-muted);
   font-size: 14px;
 }
 
-.obs-plugin-element {
+.obs-plugin-shiori-element {
   padding: 14px;
   border-radius: 10px;
   border: var(--border-width) solid var(--background-modifier-border);
@@ -307,38 +309,38 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.obs-plugin-value {
+.obs-plugin-shiori-value {
   border-radius: 6px;
   padding: 8px 0;
   color: var(--text-normal);
 }
 
-.obs-plugin-stars {
+.obs-plugin-shiori-stars {
   display: flex;
   gap: 4px;
   color: var(--text-muted);
 }
 
-.obs-plugin-star {
+.obs-plugin-shiori-star {
   font-size: 17.6px;
   cursor: pointer;
 }
 
-.obs-plugin-star.active {
+.obs-plugin-shiori-star.active {
   color: var(--color-yellow);
 }
 
-.obs-plugin-star.readonly {
+.obs-plugin-shiori-star.readonly {
   cursor: default;
 }
 
 
-.obs-plugin-danger {
+.obs-plugin-shiori-danger {
   border-color: var(--background-modifier-error);
   color: var(--text-error);
 }
 
-.obs-plugin-element button {
+.obs-plugin-shiori-element button {
   background: var(--background-modifier-error);
   color: var(--text-on-accent);
   border: none;
@@ -347,6 +349,6 @@
   cursor: pointer;
 }
 
-.obs-plugin-element button:hover {
+.obs-plugin-shiori-element button:hover {
   filter: brightness(0.95);
 }

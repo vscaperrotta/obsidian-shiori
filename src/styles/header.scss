@@ -1,15 +1,15 @@
-.obs-plugin-header {
+.obs-plugin-shiori-header {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin: 0 auto;
   width: 100%;
 
-  .obs-plugin-title {
+  .obs-plugin-shiori-title {
     font-weight: 700;
   }
 
-  .obs-plugin-header-text {
+  .obs-plugin-shiori-header-text {
     color: var(--text-muted);
     white-space: pre-wrap;
   }
