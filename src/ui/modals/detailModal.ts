@@ -7,14 +7,14 @@ export class LibraryItemDetailModal extends Modal {
   private element: Book;
   private onRate: (rating: number) => void;
   private onRemove: () => void;
-  private onSave?: (item: Book) => void;
+  private onSave?: (item: Book) => Promise<void>;
 
   constructor(
     app: Modal["app"],
     element: Book,
     onRate: (rating: number) => void,
     onRemove: () => void,
-    onSave?: (item: Book) => void,
+    onSave?: (item: Book) => Promise<void>,
   ) {
     super(app);
     this.element = element;
@@ -54,14 +54,14 @@ export class LibraryItemDetailModal extends Modal {
     });
 
     // Authors / publisher / pages (book-specific)
-    const authorsText = Array.isArray(this.element.volumeInfo.authors) ? this.element.volumeInfo.authors.join(", ") : nullSafe(() => (this.element.volumeInfo as any).authors as string | null, null);
+    const authorsText = Array.isArray(this.element.volumeInfo.authors) ? this.element.volumeInfo.authors.join(", ") : null;
     if (authorsText) {
       modalTitleContainer.createEl("p", {
         text: "Authors: " + authorsText,
       });
     }
 
-    const pages = (this.element.volumeInfo as any).pageCount ?? null;
+    const pages = this.element.volumeInfo.pageCount ?? null;
     if (pages) {
       modalTitleContainer.createEl("p", {
         text: "Pages: " + String(pages),
@@ -117,13 +117,13 @@ export class LibraryItemDetailModal extends Modal {
     modalContainer.createEl("hr");
 
     // Categories
-    if ((this.element.volumeInfo as any).categories) {
-      rederDetailSection("Categories", ((this.element.volumeInfo as any).categories || []).join(", "));
+    if (this.element.volumeInfo.categories) {
+      rederDetailSection("Categories", (this.element.volumeInfo.categories || []).join(", "));
     }
 
     // Publisher / info link
-    if ((this.element.volumeInfo as any).publisher) {
-      rederDetailSection("Publisher", (this.element.volumeInfo as any).publisher);
+    if (this.element.volumeInfo.publisher) {
+      rederDetailSection("Publisher", this.element.volumeInfo.publisher);
     }
 
     modalContainer.createEl("hr");

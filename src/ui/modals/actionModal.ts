@@ -1,12 +1,12 @@
 import { Modal } from "obsidian";
 import { nullSafe, formatPublishedDate } from "src/utils/helpers";
-import { Book } from "src/types/BookType";
+import { SearchItem } from "src/types/googleBooks";
 
 export class LibraryItemActionModal extends Modal {
-  private element: Book;
+  private element: SearchItem;
   private onSave: (watched: boolean) => void;
 
-  constructor(app: Modal["app"], element: Book, onSave: (watched: boolean) => void) {
+  constructor(app: Modal["app"], element: SearchItem, onSave: (watched: boolean) => void) {
     super(app);
     this.element = element;
     this.onSave = onSave;
@@ -43,7 +43,7 @@ export class LibraryItemActionModal extends Modal {
     });
 
     // Authors / publisher / pages (book-specific)
-    const authorsText = Array.isArray(this.element.volumeInfo.authors) ? this.element.volumeInfo.authors.join(", ") : nullSafe(() => (this.element.volumeInfo as any).authors as string | null, null);
+    const authorsText = Array.isArray(this.element.volumeInfo.authors) ? this.element.volumeInfo.authors.join(", ") : null;
     if (authorsText) {
       modalTitleContainer.createEl("p", {
         text: "Authors: " + authorsText,
@@ -51,7 +51,7 @@ export class LibraryItemActionModal extends Modal {
     }
 
     // Pages
-    const pages = (this.element.volumeInfo as any).pageCount ?? null;
+    const pages = this.element.volumeInfo.pageCount ?? null;
     if (pages) {
       modalTitleContainer.createEl("p", {
         text: "Pages: " + String(pages),
@@ -105,13 +105,13 @@ export class LibraryItemActionModal extends Modal {
     modalContainer.createEl("hr");
 
     // Categories
-    if ((this.element.volumeInfo as any).categories) {
-      rederDetailSection("Categories", ((this.element.volumeInfo as any).categories || []).join(", "));
+    if (this.element.volumeInfo.categories) {
+      rederDetailSection("Categories", (this.element.volumeInfo.categories || []).join(", "));
     }
 
     // Publisher / info link
-    if ((this.element.volumeInfo as any).publisher) {
-      rederDetailSection("Publisher", (this.element.volumeInfo as any).publisher);
+    if (this.element.volumeInfo.publisher) {
+      rederDetailSection("Publisher", this.element.volumeInfo.publisher);
     }
 
     const actions = modalContainer.createDiv({ cls: "obs-plugin-shiori-modal-detail-actions" });

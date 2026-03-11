@@ -11,7 +11,7 @@ export type GoogleVolume = {
   etag?: string;
   selfLink?: string;
   volumeInfo?: VolumeInfo;
-  saleInfo?: any;
-  accessInfo?: any;
-  searchInfo?: any;
+  saleInfo?: Record<string, unknown>;
+  accessInfo?: Record<string, unknown>;
+  searchInfo?: Record<string, unknown>;
 };

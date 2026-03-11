@@ -14,6 +14,7 @@ import {
   saveLocalData
 } from "../services/storage";
 import { searchBooks, getBookDetails } from "../services/bookService";
+import type { SearchItem } from "../types/googleBooks";
 import { createStarRating } from "../ui/ratingWidget";
 import { nullSafe, formatPublishedDate } from "../utils/helpers";
 
@@ -45,10 +46,10 @@ export default class ShioriView extends ItemView {
   async onOpen() {
     this.viewMode = this.plugin.viewMode ?? "grid";
     await this.initializeData();
-    await this.render();
+    this.render();
   }
 
-  private async render() {
+  private render() {
     const container = this.containerEl.children[1] as HTMLElement;
     container.empty();
 
@@ -70,11 +71,11 @@ export default class ShioriView extends ItemView {
           await this.plugin.setLocalJsonPath(this.file.path);
         }
         await this.loadFile(this.file);
-        await this.render();
+        this.render();
       }, () => {
         new JsonFileSuggestModal(this.plugin.app, async (file) => {
           await this.loadFile(file);
-          await this.render();
+          this.render();
         }).open();
       });
       return;
@@ -110,7 +111,7 @@ export default class ShioriView extends ItemView {
       }
 
       if (!resultsList) resultsList = searchBox.createDiv({ cls: "obs-plugin-shiori-search-results" });
-      await this.renderSearchResults(resultsList, results);
+      this.renderSearchResults(resultsList, results);
     };
 
     searchInput.addEventListener("input", () => {
@@ -346,7 +347,7 @@ export default class ShioriView extends ItemView {
     if (this.file) await saveLocalData(this.plugin.app, this.file, this.data);
   }
 
-  private async renderSearchResults(container: HTMLElement, results: any[]) {
+  private renderSearchResults(container: HTMLElement, results: SearchItem[]) {
     container.empty();
 
     results.forEach((result) => {
@@ -386,7 +387,7 @@ export default class ShioriView extends ItemView {
         new LibraryItemActionModal(this.plugin.app, result, async () => {
           if (!this.data) return;
 
-          new Notice(`Loading details for ${result.title}...`);
+          new Notice(`Loading details for ${result.volumeInfo.title}...`);
           const details = await getBookDetails(result.volumeId);
 
           if (!details) { new Notice("Unable to load book details."); return; }
